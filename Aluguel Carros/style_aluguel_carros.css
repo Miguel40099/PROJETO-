@@ -1,0 +1,502 @@
+  :root {
+    --paper: #EDE6D6;
+    --paper-dark: #E2D9C4;
+    --ink: #2B2824;
+    --ink-soft: #5C564C;
+    --stamp-red: #B23A2E;
+    --stamp-red-dark: #8C2C22;
+    --olive: #4A5D3A;
+    --olive-dark: #38462C;
+    --mustard: #C98A2C;
+    --line: #C9BFA6;
+    --white-card: #F7F3E9;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(0,0,0,0.025) 0%, transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(0,0,0,0.03) 0%, transparent 40%);
+    min-height: 100vh;
+    padding: 32px 16px 80px;
+  }
+
+  .stencil {
+    font-family: 'Courier Prime', monospace;
+  }
+
+  /* ---------- HEADER ---------- */
+  .masthead {
+    max-width: 760px;
+    margin: 0 auto 28px;
+    text-align: center;
+  }
+
+  .masthead .eyebrow {
+    font-family: 'Courier Prime', monospace;
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+
+  .masthead h1 {
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    font-size: 34px;
+    letter-spacing: 0.02em;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    border-top: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    padding: 10px 0;
+    display: inline-block;
+  }
+
+  .masthead p {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: 8px 0 0;
+  }
+
+  /* ---------- CLIPBOARD ---------- */
+  .clipboard {
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .clip {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 34px;
+    background: linear-gradient(180deg, #B8B2A0, #8E8876);
+    border-radius: 6px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+    z-index: 5;
+  }
+  .clip::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 14px;
+    border-radius: 4px;
+    background: #6B6657;
+  }
+
+  .sheet {
+    background: var(--white-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: 0 12px 30px rgba(43,40,36,0.18), 0 2px 6px rgba(43,40,36,0.08);
+    padding: 44px 36px 36px;
+    position: relative;
+  }
+
+  .sheet::before {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    border: 1px dashed var(--line);
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  /* ---------- SECTION FORM ---------- */
+  .section {
+    margin-bottom: 30px;
+  }
+
+  .section-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .section-label .num {
+    background: var(--ink);
+    color: var(--paper);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px dotted var(--line);
+    height: 1px;
+  }
+
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 20px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  .field label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .field input[type="number"],
+  .field input[type="text"],
+  .field select {
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    padding: 10px 12px;
+    border: none;
+    border-bottom: 2px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .field input:focus,
+  .field select:focus {
+    background: rgba(201,138,44,0.08);
+    border-color: var(--mustard);
+  }
+
+  .field input::placeholder { color: #B6AE9A; }
+
+  .help {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  /* Toggle pills (popular/luxo, sim/nao) */
+  .pill-group {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pill {
+    flex: 1;
+    text-align: center;
+    padding: 10px 8px;
+    border: 2px solid var(--ink);
+    border-radius: 4px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    background: transparent;
+    color: var(--ink);
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .pill:hover { background: rgba(43,40,36,0.06); }
+
+  .pill.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .pill.active.danger {
+    background: var(--stamp-red);
+    border-color: var(--stamp-red);
+  }
+
+  .pill.active.good {
+    background: var(--olive);
+    border-color: var(--olive);
+  }
+
+  /* slider for tank percentage */
+  .tank-row {
+    display: none;
+    margin-top: 14px;
+  }
+  .tank-row.show { display: block; }
+
+  .tank-value {
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--stamp-red);
+  }
+
+  input[type="range"] {
+    width: 100%;
+    margin-top: 8px;
+    accent-color: var(--stamp-red);
+  }
+
+  /* ---------- SUBMIT ---------- */
+  .submit-row {
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .btn-calc {
+    font-family: 'Courier Prime', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: 15px;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    padding: 16px 38px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.12s, background 0.15s;
+  }
+
+  .btn-calc:hover { background: var(--olive-dark); }
+  .btn-calc:active { transform: scale(0.97); }
+
+  .btn-print {
+    font-family: 'Courier Prime', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: 14px;
+    background: transparent;
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    padding: 14px 26px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.15s;
+  }
+  .btn-print:hover { background: rgba(43,40,36,0.06); }
+  .btn-print:active { transform: scale(0.97); }
+
+  /* ---------- RESULT ---------- */
+  .result-wrap {
+    max-width: 760px;
+    margin: 28px auto 0;
+    display: none;
+  }
+  .result-wrap.show { display: block; }
+
+  .result-sheet {
+    background: var(--white-card);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: 0 12px 30px rgba(43,40,36,0.18);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stamp {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    font-size: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: 4px solid currentColor;
+    padding: 6px 16px;
+    transform: rotate(-9deg);
+    border-radius: 6px;
+    opacity: 0;
+    animation: stampIn 0.4s ease-out 0.15s forwards;
+  }
+
+  .stamp.aprovado { color: var(--olive); }
+  .stamp.reprovado { color: var(--stamp-red); }
+
+  @keyframes stampIn {
+    0%   { opacity: 0; transform: rotate(-9deg) scale(1.8); }
+    60%  { opacity: 1; transform: rotate(-9deg) scale(0.92); }
+    100% { opacity: 1; transform: rotate(-9deg) scale(1); }
+  }
+
+  .result-title {
+    font-family: 'Courier Prime', monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+    margin: 0 0 4px;
+  }
+
+  .result-sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+    max-width: 70%;
+  }
+
+  .motivo-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .motivo-list li {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 14.5px;
+    display: flex;
+    gap: 10px;
+  }
+  .motivo-list li:last-child { border-bottom: none; }
+  .motivo-list li::before {
+    content: '✕';
+    color: var(--stamp-red);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .line-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px dotted var(--line);
+    font-size: 14.5px;
+  }
+  .line-item:last-of-type { border-bottom: none; }
+
+  .line-item .label { color: var(--ink-soft); }
+  .line-item .value { font-family: 'Courier Prime', monospace; font-weight: 700; }
+  .line-item .value.neg { color: var(--stamp-red); }
+  .line-item.muted .value { color: var(--ink-soft); font-weight: 400; font-style: italic; }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    background: var(--paper-dark);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin-bottom: 22px;
+    font-size: 13px;
+  }
+  .meta-row span b { font-family: 'Courier Prime', monospace; }
+
+  .divider-thick {
+    border-top: 3px solid var(--ink);
+    margin: 18px 0 12px;
+  }
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 6px;
+  }
+  .total-row .label {
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .total-row .value {
+    font-family: 'Courier Prime', monospace;
+    font-weight: 700;
+    font-size: 30px;
+    color: var(--stamp-red);
+  }
+
+  .badge-credito {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-left: 6px;
+  }
+  .badge-credito.Excelente { background: var(--olive); color: var(--paper); }
+  .badge-credito.Bom { background: #6B7F4F; color: var(--paper); }
+  .badge-credito.Regular { background: var(--mustard); color: var(--ink); }
+
+  footer {
+    text-align: center;
+    margin-top: 36px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-family: 'Courier Prime', monospace;
+  }
+
+  @media (max-width: 560px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .sheet, .result-sheet { padding: 30px 20px 26px; }
+    .masthead h1 { font-size: 24px; }
+    .stamp { font-size: 20px; top: 16px; right: 16px; padding: 4px 10px; }
+    .result-sub { max-width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stamp { animation: none; opacity: 1; }
+  }
+
+  /* ---------- IMPRESSÃO ---------- */
+  @media print {
+    body {
+      background: #fff;
+      padding: 0;
+      background-image: none;
+    }
+
+    .masthead .eyebrow { color: #444; }
+
+    .clip { display: none; }
+
+    .sheet, .result-sheet {
+      box-shadow: none;
+      border: 1px solid #999;
+    }
+
+    .sheet::before { display: none; }
+
+    /* Esconde tudo que é só formulário/entrada ao imprimir o resultado */
+    .clipboard, .submit-row { display: none; }
+
+    .result-wrap { display: block !important; margin: 0; max-width: 100%; }
+
+    .stamp { animation: none; opacity: 1; }
+
+    a, footer { color: #444; }
+  }
