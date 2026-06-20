@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Empréstimo Imobiliário Completo</title>
+    <link rel="stylesheet" href="style01.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+    
+    <div class="left-column">
+        
+        <div class="panel spatial-margin">
+            <div class="panel-title">🏛️ Simulador de empréstimo imobiliário</div>
+            
+            <div class="input-group">
+                <label>Valor da casa (R$)</label>
+                <input type="number" id="quick-val-casa" placeholder="Ex: 350000" oninput="sincronizarEAtualizar()">
+            </div>
+            
+            <div class="input-group">
+                <label>Salário mensal bruto (R$)</label>
+                <input type="number" id="quick-salario" placeholder="Ex: 8000" oninput="sincronizarEAtualizar()">
+            </div>
+            
+            <div class="input-group">
+                <label>Prazo de pagamento (anos)</label>
+                <input type="number" id="quick-prazo" placeholder="Ex: 20" oninput="sincronizarEAtualizar()">
+            </div>
+            
+            <button class="simular-btn" onclick="focarResultados()">Simular empréstimo ↗</button>
+        </div>
+
+        <div class="panel">
+            <div class="section-block">
+                <div class="section-subtitle">🏠 Dados do imóvel</div>
+                <div class="grid-inputs">
+                    <div class="input-group">
+                        <label>Valor do imóvel (R$)</label>
+                        <input type="number" id="val-imovel" value="450000" oninput="atualizarGeral(true)">
+                    </div>
+                    <div class="input-group">
+                        <label>Entrada / down payment (R$)</label>
+                        <input type="number" id="val-entrada" value="90000" oninput="atualizarGeral(false)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-subtitle">👤 Dados do comprador</div>
+                <div class="grid-inputs" style="row-gap: 14px;">
+                    <div class="input-group">
+                        <label>Salário mensal bruto (R$)</label>
+                        <input type="number" id="sal-mensal" value="10000" oninput="atualizarGeral(false)">
+                    </div>
+                    <div class="input-group">
+                        <label>Outras dívidas mensais (R$)</label>
+                        <input type="number" id="outras-dividas" value="0" oninput="atualizarGeral(false)">
+                    </div>
+                    <div class="input-group">
+                        <label>Score de crédito</label>
+                        <select id="score-credito" onchange="atualizarGeral(false)">
+                            <option value="excelente">Excelente (800-1000)</option>
+                            <option value="bom" selected>Bom (660-799)</option>
+                            <option value="regular">Regular (500-659)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Tipo de imóvel</label>
+                        <select id="tipo-imovel">
+                            <option value="residencial">Residencial</option>
+                            <option value="comercial">Comercial</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-block">
+                <div class="section-subtitle">⚙️ Condições do empréstimo</div>
+                <div class="grid-inputs" style="margin-bottom: 14px;">
+                    <div class="input-group">
+                        <label>Taxa de juros anual (%)</label>
+                        <input type="number" id="taxa-anual" value="10.5" step="0.1" oninput="atualizarGeral(false)">
+                    </div>
+                    <div class="input-group">
+                        <label>Prazo (anos)</label>
+                        <input type="number" id="prazo-anos" value="30" oninput="atualizarGeral(false)">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Sistema de amortização</label>
+                    <div class="amortization-toggle">
+                        <button id="btn-price" class="toggle-btn active" onclick="setSistema('Price')">Price (prestação fixa)</button>
+                        <button id="btn-sac" class="toggle-btn" onclick="setSistema('SAC')">SAC (amortização constante)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="results-section" id="resultados-ancora">
+        
+        <div class="panel">
+            <div class="panel-title">🧮 Resumo financeiro</div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-label">Valor financiado</div>
+                    <div class="card-value" id="res-financiado">R$ 360.000,00</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Prestação mensal</div>
+                    <div class="card-value value-red" id="res-prestacao">R$ 3.443,06</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Limite 30% salário</div>
+                    <div class="card-value" id="res-limite">R$ 3.000,00</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Total juros pagos</div>
+                    <div class="card-value" id="res-juros">R$ 825.502,13</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Custo total (financ.)</div>
+                    <div class="card-value" id="res-custo-financ">R$ 1.185.502,13</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">ITBI estimado</div>
+                    <div class="card-value" id="res-itbi">R$ 9.000,00</div>
+                </div>
+            </div>
+
+            <div class="progress-container" style="margin-top: 24px;">
+                <div class="progress-header">
+                    <span>Comprometimento da renda</span>
+                    <span id="text-comprometimento" style="font-weight: 600;">34.4%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="bar-comprometimento" style="width: 34.4%;"></div>
+                </div>
+                <div class="progress-labels">
+                    <span>0%</span>
+                    <span style="position: absolute; left: 30%; transform: translateX(-50%);">Limite: 30%</span>
+                    <span>100%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">🛈 Detalhes da operação</div>
+            
+            <div class="cards-grid" style="grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));">
+                <div class="card">
+                    <div class="card-label">LTV (% financiado)</div>
+                    <div class="card-value value-green" id="res-ltv">80.0% / máx 80.0%</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Taxa efetiva mensal</div>
+                    <div class="card-value" id="res-taxa-mensal">0.9%</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Taxa ajustada (score)</div>
+                    <div class="card-value" id="res-taxa-score">10.5% a.a.</div>
+                </div>
+                <div class="card">
+                    <div class="card-label">Custo total com entrada</div>
+                    <div class="card-value" id="res-custo-total">R$ 1.284.502,13</div>
+                </div>
+            </div>
+
+            <div class="info-banner" style="margin-top: 20px;">
+                <span>💡</span>
+                <span id="text-banner-score">Score Bom ajusta a taxa em +0% a.a.</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="script01.js"></script>
+</body>
+</html>
