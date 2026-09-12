@@ -1,0 +1,1 @@
+Este repositório contêm dois projetos para fins acadêmicos. Em ambas as pastas estão arquivos .html, .js e .css com o objetivo de fazer uma página, além disso o código em javascript foi realizado a partir de um código escrito anteriormente em C.
